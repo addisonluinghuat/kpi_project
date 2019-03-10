@@ -1,0 +1,91 @@
+1.How to create Spring boot
+  - Go to https://start.spring.io/
+  - Search dependencies call web 
+  - Click on the Generate Project button and demo project will be downloaded to download folder
+  - Unzip the demo project
+  - Open click eclipse and import the demo project
+  - Right click on the DemoApplication.java and run as java application
+  - check the console to make sure the tomcat server is up
+
+2.How to convert jar to war file
+  -open demoApplication java
+   @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(DemoApplication.class);
+    }
+  -extends SpringBootServletInitializer
+  -open pom.xml, change <packaging>jar</packaging> to 	<packaging>war</packaging>
+  -run 'maven clean install' to build war file
+  -go to target folder, run 'java -jar demo-0.0.1-SNAPSHOT.war'
+
+
+3. How to change war file name
+   <build>
+	    <finalName>product</finalName>
+   </build>
+
+
+4. How to create API end point
+   -add model
+   public class Product {
+
+	private String name;
+	private String description;
+   }
+
+   -add controller
+   @RequestMapping("/list")
+	    public List<Product> getProductList(@RequestParam(value="name", defaultValue="World") String name) {
+	              List<Product> productList=new ArrayList<>();
+	              Product product=new Product();
+	              product.setName("Product 1");
+	              product.setDescription("product description");
+	              productList.add(product);
+	    	return productList;
+	    }
+
+
+5. How to create application.properties for different environment
+    <profiles>
+	    <profile>
+	        <id>DEV</id>
+	        <build>
+	            <plugins>
+	           	    <plugin>
+					   <groupId>org.apache.maven.plugins</groupId>
+					   <artifactId>maven-resources-plugin</artifactId>
+					    <version>2.3</version>
+					    <executions>
+					        <execution>
+					            <id>copy-resources</id>
+					            <phase>process-resources</phase>
+					            <goals>
+					                <goal>copy-resources</goal>
+					            </goals>
+					            <configuration>
+					                <outputDirectory>${basedir}/target/classes</outputDirectory>
+					                <resources>
+					                    <resource>
+					                        <directory>src/main/resources/config/dev</directory>
+					                        <filtering>true</filtering>
+					                    </resource>
+					                </resources>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+	            </plugins>
+	        </build>
+	    </profile>
+	</profiles>
+
+   -add below line into productController.java
+            @Value("${path.name}")
+	    private String pathName;
+   -run command maven clean install -PDEV
+
+ 
+6 set the context path
+  server.servlet.context-path=/product
+
+
