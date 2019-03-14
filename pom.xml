@@ -86,7 +86,7 @@
 	</profiles>
 
 	<build>
-	    <finalName>product</finalName>
+	    <finalName>food</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
