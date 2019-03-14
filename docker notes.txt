@@ -1,0 +1,9 @@
+create image
+docker build -t product_image .
+
+docker network rm $(docker network ls -q)
+docker rm $(docker ps -a -q)
+docker kill $(docker ps -q)
+docker rmi $(docker images -q)
+
+docker run --rm -it -p 8080:8080 yourName
